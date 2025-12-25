@@ -12,11 +12,9 @@ export const ProfilePage: React.FC = () => {
   const [bio, setBio] = useState(profile?.bio || '');
   const [location, setLocation] = useState(profile?.location || '');
   const [saving, setSaving] = useState(false);
-
   const handleSave = async () => { setSaving(true); await updateProfile({ name, bio, location }); setSaving(false); setEditing(false); };
   const handleLogout = async () => { await signOut(); navigate('/'); };
   if (!profile) return null;
-
   return (
     <div className="px-5 py-8 space-y-10 pb-36">
       <header className="flex items-center justify-between">
@@ -28,9 +26,7 @@ export const ProfilePage: React.FC = () => {
         <div className="flex gap-8"><div className="text-center"><p className="text-3xl font-black italic text-white">{profile.streak}</p><p className="text-[9px] font-black uppercase tracking-widest text-zinc-600">Day Streak</p></div><div className="w-px bg-zinc-800" /><div className="text-center"><p className="text-3xl font-black italic text-white">0</p><p className="text-[9px] font-black uppercase tracking-widest text-zinc-600">Check-ins</p></div></div>
       </div>
       <div className="space-y-6">
-        {editing ? (<><Input label="Name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" /><Textarea label="Bio" value={bio} onChange={(e) => setBio(e.target.value)} placeholder="Tell your crew about yourself..." rows={3} /><Input label="Location" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Where are you based?" /></>) : (
-          <div className="space-y-3 text-center"><h3 className="text-4xl font-black italic tracking-tight">{profile.name}</h3><p className="text-zinc-400 font-medium max-w-[280px] mx-auto leading-relaxed">{profile.bio || 'No bio yet. Tap edit to add one.'}</p>{profile.location && <div className="flex items-center justify-center gap-2 text-zinc-600 font-black uppercase text-[10px] tracking-[0.2em] pt-4"><MapPin size={12} className="text-emerald-500/50" />{profile.location}</div>}</div>
-        )}
+        {editing ? (<><Input label="Name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" /><Textarea label="Bio" value={bio} onChange={(e) => setBio(e.target.value)} placeholder="Tell your crew about yourself..." rows={3} /><Input label="Location" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Where are you based?" /></>) : (<div className="space-y-3 text-center"><h3 className="text-4xl font-black italic tracking-tight">{profile.name}</h3><p className="text-zinc-400 font-medium max-w-[280px] mx-auto leading-relaxed">{profile.bio || 'No bio yet. Tap edit to add one.'}</p>{profile.location && <div className="flex items-center justify-center gap-2 text-zinc-600 font-black uppercase text-[10px] tracking-[0.2em] pt-4"><MapPin size={12} className="text-emerald-500/50" />{profile.location}</div>}</div>)}
       </div>
       {!editing && (
         <section className="space-y-4">
