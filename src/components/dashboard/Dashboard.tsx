@@ -4,14 +4,13 @@ import { formatDistanceToNow } from 'date-fns';
 import { Heart, MessageCircle, MapPin, ShieldCheck, AlertTriangle, Sparkles } from 'lucide-react';
 import { useAuthStore } from '../../stores/authStore';
 import { useGoalsStore } from '../../stores/goalsStore';
-import { Avatar, Card, StreakBadge, CategoryBadge, Button, Spinner } from '../ui';
+import { Avatar, Card, CategoryBadge, Button, Spinner } from '../ui';
 import type { CheckIn } from '../../types';
 
 const FeedItem: React.FC<{ checkIn: CheckIn; onKudos: () => void; currentUserId: string }> = ({ checkIn, onKudos, currentUserId }) => {
   const hasKudos = checkIn.kudos?.some(k => k.user_id === currentUserId);
   const isVerified = checkIn.confidence_score && checkIn.confidence_score >= 70;
   const isSuspicious = checkIn.is_fake || (checkIn.confidence_score && checkIn.confidence_score < 50);
-
   return (
     <Card className="space-y-5">
       <div className="flex items-center justify-between">
@@ -49,19 +48,10 @@ export const Dashboard: React.FC = () => {
   const { checkIns, fetchFeed, toggleKudos, loading } = useGoalsStore();
   useEffect(() => { fetchFeed(); }, [fetchFeed]);
   const handleKudos = async (checkInId: string) => { if (profile?.id) await toggleKudos(checkInId, profile.id); };
-
   return (
     <div className="px-5 py-8 space-y-8 pb-36">
-      <header className="flex items-center justify-between">
-        <div><p className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.3em]">Welcome back</p><h1 className="text-4xl font-black italic tracking-tighter">{profile?.name?.split(' ')[0] || 'Soldier'}</h1></div>
-        <Link to="/profile"><Avatar src={profile?.avatar_url || null} alt={profile?.name || 'Profile'} size="lg" streak={profile?.streak} /></Link>
-      </header>
-      <Card className="bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 border-emerald-500/20">
-        <div className="flex items-center justify-between">
-          <div><p className="text-[10px] font-black text-emerald-500/70 uppercase tracking-[0.3em]">Current Streak</p><p className="text-5xl font-black italic text-white mt-2">{profile?.streak || 0}<span className="text-2xl text-emerald-500 ml-2">days</span></p></div>
-          <div className="w-20 h-20 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center"><span className="text-4xl">🔥</span></div>
-        </div>
-      </Card>
+      <header className="flex items-center justify-between"><div><p className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.3em]">Welcome back</p><h1 className="text-4xl font-black italic tracking-tighter">{profile?.name?.split(' ')[0] || 'Soldier'}</h1></div><Link to="/profile"><Avatar src={profile?.avatar_url || null} alt={profile?.name || 'Profile'} size="lg" streak={profile?.streak} /></Link></header>
+      <Card className="bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 border-emerald-500/20"><div className="flex items-center justify-between"><div><p className="text-[10px] font-black text-emerald-500/70 uppercase tracking-[0.3em]">Current Streak</p><p className="text-5xl font-black italic text-white mt-2">{profile?.streak || 0}<span className="text-2xl text-emerald-500 ml-2">days</span></p></div><div className="w-20 h-20 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center"><span className="text-4xl">🔥</span></div></div></Card>
       <div className="grid grid-cols-2 gap-4"><Link to="/check-in"><Button className="w-full py-6">Check In</Button></Link><Link to="/goals"><Button variant="outline" className="w-full py-6">My Goals</Button></Link></div>
       <section className="space-y-4">
         <h2 className="text-[10px] font-black uppercase tracking-widest text-zinc-600 ml-3">Crew Activity</h2>

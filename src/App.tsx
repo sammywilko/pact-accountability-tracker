@@ -30,7 +30,6 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 function App() {
   const { initialize, initialized } = useAuthStore();
   useEffect(() => { if (!initialized) initialize(); }, [initialize, initialized]);
-
   return (
     <BrowserRouter>
       <Routes>
